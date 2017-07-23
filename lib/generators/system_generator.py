@@ -25,11 +25,8 @@ class ConfigGeneratorYaml(ConfigGenerator):
         self.filename = 'config.yaml'
 
     def generate(self):
-        output_name = path.join(self.system_path, self.filename)
-        with open(output_name, 'w') as output_file:
+        with open(self.output_file, 'w') as output_file:
             yaml.dump(self.defaults, output_file)
-
-        self.log_save(output_name)
 
 
 class ClassifierGenerator(Generator):
@@ -44,8 +41,7 @@ class ClassifierGenerator(Generator):
 
     def generate(self):
         output_file = path.join(self.system_path, self.filename)
-        copy2(self.classifier_template, output_file)
-        self.log_save(output_file)
+        copy2(self.classifier_template, self.output_file)
 
 class SystemGenerator(Generator):
 
@@ -69,4 +65,15 @@ class SystemGenerator(Generator):
         super().ensure_dir(self.system_path)
 
         for generator in self.generators:
-            generator.generate()
+            # Only create new files
+            if not path.isfile(generator.output_file):
+                generator.generate()
+                generator.log_save()
+
+    def remove(self):
+        # Clean removal
+        for generator in self.generators:
+            generator.remove()
+
+        super().remove_dir(self.system_path)
+        self.log_remove(self.system_path)

@@ -13,8 +13,15 @@ args = sys.argv[1:]
 def generate(mode, name):
     if mode == 'system':
         generator = SystemGenerator(name)
-
     generator.generate()
+
+def remove(mode, name):
+    if mode == 'system':
+        generator = SystemGenerator(name)
+    generator.remove()
 
 if args[0] == 'generate':
     generate(args[1], args[2])
+
+if args[0] == 'remove':
+    remove(args[1], args[2])

@@ -1,4 +1,4 @@
-from os import path, makedirs, getcwd
+from os import path, makedirs, getcwd, remove, rmdir
 
 class Logger:
     HEADER = '\033[95m'
@@ -20,6 +20,9 @@ class Logger:
     def log_success(self, msg):
         self.log(self.OKGREEN + msg + self.ENDC)
 
+    def log_fail(self, msg):
+        self.log(self.FAIL + msg + self.ENDC)
+
 class Generator:
 
     def __init__(self, name, base_path):
@@ -36,6 +39,8 @@ class Generator:
             raise NotImplementedError(msg)
         return path.join(self._base_path, self.name)
 
+
+
     @property
     def templates_path(self):
         current_path = path.dirname(__file__)
@@ -48,11 +53,31 @@ class Generator:
         if not path.exists(directory):
             makedirs(directory)
 
+    def remove_dir(self, directory):
+        if path.exists(directory):
+            rmdir(directory)
+
     def generate(self):
         msg = 'Need to provide a generate method when overriding'
         raise NotImplementedError(msg)
 
+    @property
+    def output_file(self):
+        return path.join(self.system_path, self.filename)
 
-    def log_save(self, file):
-        msg = 'Successfully created %s' % file
+    def remove(self):
+        if path.isfile(self.output_file):
+            remove(self.output_file)
+            self.log_remove()
+
+    def log_remove(self, file_=None):
+        if file_ is None:
+            file_ = self.output_file
+        msg = 'Successfully removed %s' % file_
+        self.__logger.log_fail(msg)
+
+    def log_save(self, file_=None):
+        if file_ is None:
+            file_ = self.output_file
+        msg = 'Successfully created %s' % file_
         self.__logger.log_success(msg)
