@@ -25,3 +25,7 @@ if args[0] == 'generate':
 
 if args[0] == 'remove':
     remove(args[1], args[2])
+
+if args[0] == 'regenerate':
+    remove(args[1], args[2])
+    generate(args[1], args[2])

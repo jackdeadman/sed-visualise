@@ -13,9 +13,12 @@ class ConfigGenerator(Generator):
         self.defaults = {
             'name': name,
             'description': 'No description provided.',
-            'configurations': [
-                'default'
-            ]
+            'configurations': {
+                'default': {
+                    'name': 'Default configuration',
+                    'description': 'No description provided.'
+                }
+            }
         }
 
 class ConfigGeneratorYaml(ConfigGenerator):
@@ -26,18 +29,18 @@ class ConfigGeneratorYaml(ConfigGenerator):
 
     def generate(self):
         with open(self.output_file, 'w') as output_file:
-            yaml.dump(self.defaults, output_file)
+            yaml.dump(self.defaults, output_file, default_flow_style=False)
 
 
 class ClassifierGenerator(Generator):
 
     def __init__(self, name, base_path):
         super().__init__(name, base_path)
-        self.filename = 'classifier.py'
+        self.filename = 'default.py'
 
     @property
     def classifier_template(self):
-        return path.join(self.templates_path, self.filename)
+        return path.join(self.templates_path, 'classifier.py')
 
     def generate(self):
         output_file = path.join(self.system_path, self.filename)
@@ -75,5 +78,10 @@ class SystemGenerator(Generator):
         for generator in self.generators:
             generator.remove()
 
-        super().remove_dir(self.system_path)
-        self.log_remove(self.system_path)
+        try:
+            super().remove_dir(self.system_path)
+            self.log_remove(self.system_path)
+        except OSError:
+            # Directory may not be empty, this will throw an OSError.
+            # Maybe add a prompt to the user asking them to continue anyway?
+            pass
