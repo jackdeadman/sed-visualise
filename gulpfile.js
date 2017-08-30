@@ -4,22 +4,15 @@ var gutil = require("gulp-util");
 var webpack = require("webpack");
 var webpackStream = require("webpack-stream");
 var WebpackDevServer = require("webpack-dev-server");
-// var sass = require('gulp-sass');
-// var rename = require("gulp-rename");
-// var livereload = require('gulp-livereload');
-// var htmlreplace = require('gulp-html-replace');
 var path = require('path');
-
-
-
 
 gulp.task("webpack-dev-server", function(callback) {
   // Start a webpack-dev-server
   var config = require('./webpack.config.js');
   var compiler = webpack(config);
-  console.log(config);
+  
   new WebpackDevServer(compiler, {
-    contentBase: "src",
+    contentBase: "webapp_src",
     inline: true,
     hot: true
   })
@@ -53,8 +46,8 @@ gulp.task('webpack:watch', function() {
 });
 
 gulp.task('moveIndex', function() {
-  return gulp.src('src/index.html').pipe(gulp.dest('dist'));
+  return gulp.src('src/index.html').pipe(gulp.dest('webapp_dist'));
 });
 
-gulp.task('default', ['sass:debug', 'sass:watch', 'webpack-dev-server']);
+gulp.task('default', ['sass:debug', 'sass:watch']);
 gulp.task('build', ['sass:production', 'compileJS', 'moveIndex']);
