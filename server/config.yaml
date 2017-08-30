@@ -1,1 +1,11 @@
-upload_folder: 'static/audio'
+app:
+  upload_folder: uploads
+  static_folder: ../webapp_dist
+  systems_folder: sed_systems
+  secret: rjPBtXTp7r^X)g6vco69B7,IH^5i)5
+
+messages:
+  en:
+    invalid_audio_file: 'Error: Invalid audio file type. Please upload a .wav file.'
+    no_file_uploaded: Please select a file before uploading.
+    upload_failed: 'Error: Failed to upload the audio file.'
