@@ -5,7 +5,7 @@ const path = require('path');
 module.exports = {
   context: path.join(__dirname, "webapp_src"),
   devtool: debug ? "inline-sourcemap" : null,
-  entry: "./js/client.js",
+  entry: ["babel-polyfill", "./js/client.js"],
   module: {
     loaders: [
       {
