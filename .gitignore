@@ -3,5 +3,5 @@ __pycache__
 systems
 .DS_Store
 .vscode
-*.wav
+server/**/*.wav
 *.pkl
