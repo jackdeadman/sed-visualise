@@ -54,8 +54,7 @@ export default class LabelSlider extends React.Component {
     const duration = (end - start) * this.scale;
     const left = ((start - pos) * this.scale) + this.labelOffset;
 
-    // Don't render labels that are
-    // off the screen
+    // Don't render labels that are off the screen
     if (!this.labelVisible(start, pos, left, duration, end)) {
       return null;
     }

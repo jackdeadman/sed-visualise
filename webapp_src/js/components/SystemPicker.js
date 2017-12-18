@@ -13,6 +13,7 @@ export default class SystemPicker extends React.Component {
     this.state = {
       activeSystem: null,
       loadingSystems: false,
+      errorText: null,
       systems: []
     }
   }
@@ -23,11 +24,17 @@ export default class SystemPicker extends React.Component {
 
   async componentDidMount() {
     this.setState({ loadingSystems: true });
-    const classifiers = await this.props.classifierFactory.all();
-    console.log(classifiers);
+    let errorText = null;
+    let classifiers = [];
+    try {
+        classifiers = await this.props.classifierFactory.all();
+    } catch (e) {
+        errorText = e.errorText;
+    }
 
     this.setState({
       loadingSystems: false,
+      errorText,
       systems: classifiers
     }, this.bindKeys);
 
@@ -60,8 +67,8 @@ export default class SystemPicker extends React.Component {
     }
 
     const currentIndex = this.currentIndex;
-    let indexChange = 0; 
-    
+    let indexChange = 0;
+
     if (e.keyCode === Key.UP) {
       indexChange = -1;
     } else if (e.keyCode === Key.DOWN) {
@@ -131,6 +138,9 @@ export default class SystemPicker extends React.Component {
   render() {
     return (
       <div>
+        { this.state.errorText &&
+            `<div>${this.state.errorText}<div>`}
+
         { this.state.loadingSystems
               ? <div>Loading classifiers...</div>
               : this.renderSystems(this.state.systems) }

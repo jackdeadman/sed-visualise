@@ -17,7 +17,10 @@ import SystemsOutputContainer from '../components/SystemsOutputContainer';
 import Modal from '../components/Modal';
 import ClassifierFactory from '../structs/ClassifierFactory';
 
-const url = 'http://localhost:5000/classifiers';
+import Api from '../api';
+
+const url = 'http://localhost:5000';
+const api = new Api(url);
 
 class Play extends React.Component {
   constructor(props) {
@@ -29,7 +32,7 @@ class Play extends React.Component {
       labelsFile: null
     }
 
-    this.classifierFactory = new ClassifierFactory({remote: url});
+    this.classifierFactory = new ClassifierFactory({ api });
 
     this.timelineKeyMappings = {
       [Key.SPACE]: 'toggle',

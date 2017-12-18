@@ -23,7 +23,13 @@ export const fetch = async (url) => {
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
       if (xhr.readyState == XMLHttpRequest.DONE) {
-          resolve(xhr.responseText);
+          if (xhr.status === 200) {
+              resolve(xhr.responseText);
+          } else {
+              reject({
+                  errorText: xhr.statusText
+              });
+          }
       }
     }
     xhr.open('GET', url, true);
