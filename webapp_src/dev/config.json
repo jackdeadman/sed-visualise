@@ -1,0 +1,6 @@
+{
+    "api": {
+        "basename": "http://localhost",
+        "port": "5000"
+    }
+}

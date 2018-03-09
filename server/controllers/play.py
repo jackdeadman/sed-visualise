@@ -46,6 +46,5 @@ import time
 
 @play.route('/classifiers/')
 def classifiers():
-    time.sleep(1)
     configs = classifier_factory.all_configs
     return json.dumps({ 'classifiers': configs })

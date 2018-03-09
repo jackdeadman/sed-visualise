@@ -34,6 +34,10 @@ export default class ItemManager extends PureClass {
         return this.inside[index];
     }
 
+    get length() {
+      return this.asArray.length;
+    }
+
     get asArray() {
         return this.inside;
     }

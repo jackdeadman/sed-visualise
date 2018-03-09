@@ -33,8 +33,8 @@ export default class ClassifierFactory extends PureClass {
 
         this.loading = true;
 
-        const inside = await this.api.fetch('classifiers/all');
-        const manager = new ItemManager({ inside });
+        const inside = await this.api.classifiers();
+        const manager = new ItemManager({ inside: inside.classifiers });
 
         const classifiers = manager.map(attrs => new Classifier(attrs));
 

@@ -1,6 +1,6 @@
 app:
   upload_folder: uploads
-  static_folder: ../webapp_dist
+  static_folder: ../static
   systems_folder: sed_systems
   secret: rjPBtXTp7r^X)g6vco69B7,IH^5i)5
 

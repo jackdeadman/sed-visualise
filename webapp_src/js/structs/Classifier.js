@@ -9,9 +9,9 @@ export default class Classifier extends PureClass {
         this.title = title;
         this.description = description;
     }
-    
+
     async labelsFor(audioFileCode) {
-        return fetch();
+        return fetch(audioFileCode);
     }
 
 }

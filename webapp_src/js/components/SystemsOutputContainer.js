@@ -26,13 +26,14 @@ const AddMessageWithNoSystems = ({ onClick }) => (
 
 const SystemOutputContainer = props => {
     const { systems, onAdd,
-            onRemove, timeline, code } = props;
+            onRemove, timeline, code, api, audioCode } = props;
     return (
         <div>
             <div>
                 { systems.map(system => (
                     <LabelSlider system={system} onRemove={onRemove}
-                        timeline={timeline}/>
+                        timeline={timeline} onError={console.error}
+                        api={api} audioCode={audioCode}/>
                 )).asArray}
             </div>
 

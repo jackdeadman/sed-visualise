@@ -19,8 +19,7 @@ import ClassifierFactory from '../structs/ClassifierFactory';
 
 import Api from '../api';
 
-const url = 'http://localhost:5000';
-const api = new Api(url);
+const api = new Api();
 
 class Play extends React.Component {
   constructor(props) {
@@ -101,34 +100,6 @@ class Play extends React.Component {
     });
   };
 
-  // {/*url={`/classify/${code}/${system.server_name}`}*/}
-  renderSystem = (system, pos, code) => {
-    let handleError = e => {
-      console.log(e);
-      this.removeSystem(system);
-      alert('Failed to add.');
-    };
-
-    return (
-      <div class="card card--spaced">
-        <header class="card-header cf">
-          <h2 class="pull-left">{ system.title }</h2>
-          <button onClick={() => this.removeSystem(system)} class="btn btn-danger btn-medium pull-right">Remove</button>
-        </header>
-        <LabelSlider
-              pos={pos}
-              url='/labels/b032.txt'
-              code={code}
-              classifier={system.id}
-              labels={system.labels}
-              system={system}
-              onError={handleError}
-              onSelect={([start]) => this.seek(Math.max(0, start - 0.3))}
-              />
-      </div>
-    );
-  };
-
   get audioCode() {
     return this.props.match.params.code;
   }
@@ -176,6 +147,8 @@ class Play extends React.Component {
           <SystemsOutputContainer systems={systems}
               timeline={timeline} code={this.audioCode}
               onRemove={this.removeSystem}
+              api={api}
+              audioCode={this.audioCode}
               onAdd={this.openSystemPicker.bind(this)} />
         </Page>
       </div>

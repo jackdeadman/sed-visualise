@@ -15,17 +15,20 @@ export default class LabelSlider extends React.Component {
 
   async componentDidMount() {
     this.setState({ loading: true });
-    const { code, classifier } = this.props;
-    const url = `http://localhost:5000/classify/${classifier}/${code}`;
+
+    const classifier = this.props.system.id;
+    const code = this.props.audioCode;
     let labels = null;
     try {
-      labels = await fetch(url);
+      labels = await this.props.api.classify(classifier, code);
+      console.log(labels)
+      labels = parseLabels(labels);
     } catch (e) {
       return this.props.onError(e);
     }
 
     this.setState({
-      labels: parseLabels(labels),
+      labels,
       loading: false
     });
   }
@@ -90,15 +93,22 @@ export default class LabelSlider extends React.Component {
   }
 
   render() {
-    let { pos, onSelect } = this.props;
+    let { timeline, onSelect, onRemove, system } = this.props;
+
     return (
-      <div class="label-slider" id="slider">
-        <ul class="events">
-          { isEmpty(this.state.labels)
-                ? this.renderLoading()
-                : this.renderLabels(this.state.labels, pos, onSelect)
-          }
-        </ul>
+      <div class="card card--spaced">
+        <header class="card-header cf">
+          <h2 class="pull-left">{ system.title }</h2>
+          <button onClick={() => onRemove(system)} class="btn btn-danger btn-medium pull-right">Remove</button>
+        </header>
+        <div class="label-slider" id="slider">
+          <ul class="events">
+            { isEmpty(this.state.labels)
+                  ? this.renderLoading()
+                  : this.renderLabels(this.state.labels, timeline.pos, onSelect)
+            }
+          </ul>
+        </div>
       </div>
     );
   };
