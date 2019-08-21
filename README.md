@@ -1,7 +1,4 @@
 # SED (Sound Event Detection) Visualisation
-## Disclaimer
-This project was created to complement my undergraduate research. This is an early release of the project.
-
 ## What is this?
 This is a tool which allows researchers to easily demonstrate the results of their SED systems. It can also be easily be used locally, for quickly seeing development results.
 
